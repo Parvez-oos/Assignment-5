@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GitHub Issues Tracker</title>
     <!-- favicon -->
-     <link rel="icon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://github.githubassets.com/favicons/favicon.png"
+    />
 
     <!-- tailwind cdn -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -62,40 +66,165 @@
     </style>
   </head>
   <body class="font-geist bg-slate-50 min-h-screen text-slate-800">
-  <!-- login form -->
+    <!-- login form -->
 
-      <div id="loginPage" class="flex items-center justify-center min-h-screen p-4 bg-slate-50">
-    <div class="bg-white p-10 rounded-2xl shadow-sm border border-slate-100 w-full max-w-[450px] text-center">
+    <div
+      id="loginPage"
+      class="flex items-center justify-center min-h-screen p-4 bg-slate-50"
+    >
+      <div
+        class="bg-white p-10 rounded-2xl shadow-sm border border-slate-100 w-full max-w-[450px] text-center"
+      >
         <i class="fa-brands fa-github text-7xl mb-6 text-slate-800"></i>
-        <h1 class="text-2xl font-bold mb-1 text-slate-900">GitHub Issues Tracker</h1>
+        <h1 class="text-2xl font-bold mb-1 text-slate-900">
+          GitHub Issues Tracker
+        </h1>
         <p class="text-slate-400 text-sm mb-8">Sign in to manage your issues</p>
-        
+
         <form id="loginForm" class="space-y-5 text-left">
-            <div>
-                <label class="block text-sm font-semibold mb-1.5 text-slate-700">Username</label>
-                <input type="text" id="username" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:border-indigo-600 transition-colors" placeholder="Enter Username">
-  
-            </div>
-            <div>
-                <label class="block text-sm font-semibold mb-1.5 text-slate-700">Password</label>
-                <input type="password" id="password" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:border-indigo-600 transition-colors" placeholder="Enter Password">
-                
-            </div>
-            <button type="submit" class="w-full bg-[#4f00ff] text-white font-bold py-3 rounded-lg hover:bg-[#4300d9] shadow-md transition-all mt-2">Sign In</button>
+          <div>
+            <label class="block text-sm font-semibold mb-1.5 text-slate-700"
+              >Username</label
+            >
+            <input
+              type="text"
+              id="username"
+              class="w-full border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:border-indigo-600 transition-colors"
+              placeholder="Enter Username"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1.5 text-slate-700"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="password"
+              class="w-full border border-slate-200 rounded-lg px-4 py-2.5 outline-none focus:border-indigo-600 transition-colors"
+              placeholder="Enter Password"
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-[#4f00ff] text-white font-bold py-3 rounded-lg hover:bg-[#4300d9] shadow-md transition-all mt-2"
+          >
+            Sign In
+          </button>
         </form>
-        
+
         <div class="mt-8 pt-6 border-t border-slate-100">
-            <div class="relative -top-[38px] bg-white px-4 inline-block text-slate-400 text-xs font-bold uppercase tracking-widest">OR</div>
-            <p class="text-slate-400 text-xs mb-3">Demo Credentials:</p>
-            <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
-                <p class="text-sm font-bold text-slate-700">Username: <span class="font-normal text-slate-500">admin</span></p>
-                <p class="text-sm font-bold text-slate-700">Password: <span class="font-normal text-slate-500">admin123</span></p>
-            </div>
+          <div
+            class="relative -top-[38px] bg-white px-4 inline-block text-slate-400 text-xs font-bold uppercase tracking-widest"
+          >
+            OR
+          </div>
+          <p class="text-slate-400 text-xs mb-3">Demo Credentials:</p>
+          <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
+            <p class="text-sm font-bold text-slate-700">
+              Username: <span class="font-normal text-slate-500">admin</span>
+            </p>
+            <p class="text-sm font-bold text-slate-700">
+              Password: <span class="font-normal text-slate-500">admin123</span>
+            </p>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
+    <!-- dashboard layout -->
 
-<script src="./script/app.js"></script>
+    <div id="dashboardPage" class="hidden flex-col min-h-screen">
+      <nav
+        class="bg-white border-b px-6 py-4 flex justify-between items-center sticky top-0 z-10"
+      >
+        <div class="flex items-center gap-2 font-bold text-lg">
+          <i class="fa-brands fa-github"></i> GitHub Issues Tracker
+        </div>
+        <div class="flex gap-2">
+          <form id="searchForm" class="relative">
+            <i
+              class="fa-solid fa-search absolute left-3 top-2.5 text-slate-400 text-sm"
+            ></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search issues..."
+              class="border rounded-md pl-9 pr-3 py-1.5 text-sm outline-none focus:border-primary"
+            />
+          </form>
+          <button
+            class="bg-primary text-white px-4 py-1.5 rounded-md text-sm font-medium"
+          >
+            + New Issue
+          </button>
+        </div>
+      </nav>
+
+      <main class="p-6 max-w-7xl mx-auto w-full">
+        <div class="bg-white border rounded-lg p-1 inline-flex mb-6">
+          <button
+            onclick="setTab('All')"
+            id="tab-All"
+            class="px-6 py-1.5 rounded-md text-sm font-medium bg-primary text-white"
+          >
+            All
+          </button>
+          <button
+            onclick="setTab('Open')"
+            id="tab-Open"
+            class="px-6 py-1.5 rounded-md text-sm font-medium text-slate-600"
+          >
+            Open
+          </button>
+          <button
+            onclick="setTab('Closed')"
+            id="tab-Closed"
+            class="px-6 py-1.5 rounded-md text-sm font-medium text-slate-600"
+          >
+            Closed
+          </button>
+        </div>
+
+        <div
+          class="bg-white border rounded-lg p-4 flex justify-between items-center mb-6"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="bg-indigo-100 text-primary p-2 rounded-full h-10 w-10 flex items-center justify-center"
+            >
+              <i class="fa-solid fa-circle-dot"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-lg">
+                <span id="issueCount">0</span> Issues
+              </h2>
+              <p class="text-xs text-slate-400">
+                Track and manage your project issues
+              </p>
+            </div>
+          </div>
+          <div class="flex gap-4 text-xs font-medium">
+            <span class="flex items-center gap-1"
+              ><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              Open</span
+            >
+            <span class="flex items-center gap-1"
+              ><span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+              Closed</span
+            >
+          </div>
+        </div>
+
+        <div id="loadingSpinner" class="hidden justify-center py-10">
+          <div class="loader"></div>
+        </div>
+        <div
+          id="issuesGrid"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        ></div>
+      </main>
+    </div>
+
+    <script src="./script/app.js"></script>
   </body>
 </html>
