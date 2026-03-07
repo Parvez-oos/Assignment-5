@@ -191,3 +191,49 @@ function renderIssues(dataOverride = null) {
     grid.appendChild(card);
   });
 }
+
+// Modal Logic (Now With Dynamic Content)
+
+function openModal(id) {
+    fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+        .then(r => r.json())
+        .then(res => {
+            const d = res.data || res;
+            const modal = document.getElementById('issueModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            document.getElementById('modalTitle').innerText = d.title;
+            document.getElementById('modalAuthor').innerText = d.author;
+            document.getElementById('modalDesc').innerText = d.description;
+            document.getElementById('modalAssignee').innerText = d.assignee || d.author;
+            document.getElementById('modalDate').innerText = new Date(d.createdAt).toLocaleDateString('en-GB');
+
+            const statusEl = document.getElementById('modalStatus');
+            const isOpen = d.status.toLowerCase() === 'open';
+            statusEl.innerText = isOpen ? 'Opened' : 'Closed';
+            statusEl.className = `px-3 py-1 rounded-full text-white font-bold text-[11px] ${isOpen ? 'bg-emerald-500' : 'bg-[#4f00ff]'}`;
+            
+            const p = d.priority.toLowerCase();
+            const prioEl = document.getElementById('modalPriority');
+            prioEl.innerText = p.toUpperCase();
+            prioEl.className = `px-3 py-1.5 rounded-md font-extrabold text-[10px] text-white ${p === 'high' ? 'bg-[#ff4d4d]' : p === 'medium' ? 'bg-[#f59e0b]' : 'bg-slate-400'}`;
+
+            document.getElementById('modalLabels').innerHTML = (d.labels || []).map(l => {
+                const low = l.toLowerCase();
+                let color = 'bg-slate-50 text-slate-500 border-slate-100';
+                let icon = 'fa-tag';
+                if (low === 'bug') {color = 'bg-[#fff1f1] text-[#ff5a5a] border-[#ffe4e4]'; icon = 'fa-bug';}
+                if (low === 'help wanted') {color = 'bg-[#fff9db] text-[#f08c00] border-[#fff3bf]'; icon = 'fa-life-ring'; }
+                if (low === 'enhancement') {color = 'bg-[#e6fcf5] text-[#0ca678] border-[#c3fae8]'; icon = 'fa-wand-magic-sparkles'; }
+                if (low === 'documentation') {color = 'bg-[#eff6ff] text-[#0ea5e9] border-[#dbeafe]'; icon = 'fa-book';}
+                return `<span class="text-[10px] border px-2.5 py-1 rounded-full font-bold uppercase ${color}"><i class="fa ${icon} mr-1"></i>${l}</span>`;
+            }).join(' ');
+        });
+}
+
+function closeModal() {
+    const modal = document.getElementById('issueModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
