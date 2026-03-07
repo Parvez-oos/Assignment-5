@@ -23,3 +23,39 @@ if (loginForm) {
     }
   });
 }
+
+
+// Search Bar Logic (API Integration)
+
+const searchInput = document.getElementById("searchInput");
+const searchForm = document.getElementById("searchForm");
+let searchTimer; 
+
+if (searchForm) {
+    searchForm.addEventListener('submit', (e) => e.preventDefault());
+}
+
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const searchText = e.target.value.trim();
+        clearTimeout(searchTimer);
+
+        searchTimer = setTimeout(() => {
+            if (searchText === "") {
+                renderIssues(); 
+                return;
+            }
+
+            toggleLoader(true);
+            // Using the Search API endpoint
+            fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`)
+                .then(res => res.json())
+                .then(result => {
+                    const searchResults = result.data || result;
+                    renderIssues(searchResults); 
+                })
+                .catch(err => console.error("Search API Error:", err))
+                .finally(() => toggleLoader(false));
+        }, 300); 
+    });
+}
